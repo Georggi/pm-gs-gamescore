@@ -1,0 +1,10 @@
+name: GamesCore
+main: GamesCore\Loader
+version: 1.0.0
+api: 1.12.0
+author: iksaku
+load: STARTUP
+depend:
+  - Core
+
+permissions: []
