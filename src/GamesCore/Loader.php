@@ -2,7 +2,6 @@
 namespace GamesCore;
 
 use Core\InternalAPI\CoreInstance;
-use Core\Loader as Core;
 use GamesCore\BaseFiles\BaseMiniGame;
 use GamesCore\BaseFiles\MiniGameProject;
 use pocketmine\level\format\FullChunk;
@@ -11,16 +10,9 @@ use pocketmine\tile\Sign;
 use pocketmine\utils\TextFormat;
 
 class Loader extends CoreInstance{
-    /** @var Core */
-    private $core;
 
     public function onLoad(){
-        /** @var null|Core $core */
-        $core = $this->getServer()->getPluginManager()->getPlugin("Core");
-        if($core !== null){
-            $this->core = $core;
-            $this->getCore()->setNotHub();
-        }
+        $this->getCore()->setNotHub();
     }
 
     public function onEnable(){
@@ -44,13 +36,6 @@ class Loader extends CoreInstance{
      * | '--------------' | '--------------' | '--------------' |
      *  '----------------' '----------------' '----------------'
      */
-
-    /**
-     * @return Core
-     */
-    public function getCore(){
-        return $this->core;
-    }
 
     /**
      * @return string
