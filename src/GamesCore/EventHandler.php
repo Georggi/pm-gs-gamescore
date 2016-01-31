@@ -6,6 +6,7 @@ use pocketmine\block\SignPost;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\event\level\ChunkLoadEvent;
+use pocketmine\event\level\ChunkUnloadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\event\player\PlayerDeathEvent;
@@ -18,6 +19,7 @@ use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\event\player\PlayerToggleSneakEvent;
 use pocketmine\item\Item;
 use pocketmine\tile\Sign;
+use pocketmine\utils\TextFormat;
 
 class EventHandler implements Listener{
     private $plugin;
@@ -67,6 +69,17 @@ class EventHandler implements Listener{
         }else{
             if(($game = $this->plugin->getGame($event->getLevel())) !== false){
                 $game->getPlugin()->registerChunkSigns($event->getChunk());
+            }
+        }
+    }
+
+    public function onChunkUnload(ChunkUnloadEvent $event){
+        foreach($event->getChunk()->getTiles() as $tile){
+            if($tile instanceof Sign && (
+                strtolower($tile->getText()[0] === TextFormat::GOLD . TextFormat::ITALIC . "[Join]") ||
+                strtolower($tile->getText()[0] === TextFormat::GREEN . TextFormat::BOLD . "[Join]")) &&
+            $this->plugin->getServer) {
+
             }
         }
     }

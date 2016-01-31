@@ -177,7 +177,7 @@ class Loader extends CoreInstance{
         foreach($this->games as $id => $game){
             /** @var BaseMiniGame $game */
             $game->endGame(true, $shutdown);
-            $game->getSign()->setText("[match]");
+            $game->getSign()->setText("[match]", "", "", "");
         }
         $this->getMiniGame()->setEnabled(false);
     }

@@ -6,6 +6,7 @@ use GamesCore\Loader;
 use pocketmine\block\Air;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\Level;
+use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
 
 abstract class MiniGameProject extends CoreInstance{
@@ -60,17 +61,25 @@ abstract class MiniGameProject extends CoreInstance{
     public final function getWorldSpawnPoints(Level $level){
         if(!isset($this->spawnPoints[$level->getId()]) || count($this->spawnPoints[$level->getId()]) < 2 || !isset($this->spawnPoints[$level->getId()]["spawn"]) || count($this->spawnPoints[$level->getId()]["spawn"]) < 1){
             $this->spawnPoints[$level->getId()] = [];
-            foreach($level->getTiles() as $tile){
-                if($tile instanceof Sign){
-                    if($tile->getText()[0] === "[spawn]"){
-                        $pos = $tile->floor();
-                        $this->spawnPoints[$level->getId()]["spawn"][] = $pos;
-                        if($tile->getText()[1] === "respawn"){
-                            $this->spawnPoints[$level->getId()]["respawn"][] = $pos; // Just to be sure that we can use a single position as both "Spawn" and "Re-Spawn"
+            $tiles = $level->getTiles();
+            if(!empty($tiles)){
+                foreach($tiles as $tile){
+                    if($tile instanceof Sign){
+                        if($tile->getText()[0] === "[spawn]"){
+                            $pos = $tile->floor();
+                            $this->spawnPoints[$level->getId()]["spawn"][] = $pos;
+                            if($tile->getText()[1] === "respawn"){
+                                $this->spawnPoints[$level->getId()]["respawn"][] = $pos; // Just to be sure that we can use a single position as both "Spawn" and "Re-Spawn"
+                            }
+                            $level->setBlock($tile, new Air(), true, false);
                         }
-                        $level->setBlock($tile, new Air(), true, false);
                     }
                 }
+            } else { //FOR TESTING, IN GAMES SHOULD NEVER BE USED(Or no?)
+                $Spawn = $level->getSpawnLocation();
+                echo $level->getId(). "\n";
+                $this->spawnPoints[$level->getId()]["spawn"][] = new Vector3($Spawn->getX(), $Spawn->getY(), $Spawn->getZ());
+                $this->spawnPoints[$level->getId()]["respawn"][] = new Vector3($Spawn->getX(), $Spawn->getY(), $Spawn->getZ());
             }
         }
         return $this->spawnPoints[$level->getId()]["spawn"];
