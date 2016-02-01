@@ -5,21 +5,16 @@ use GamesCore\GamesPlayer;
 use GamesCore\Loader;
 use GamesCore\Timers\GameEnd;
 use GamesCore\Timers\GameStart;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityMotionEvent;
-use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\player\PlayerItemConsumeEvent;
-use pocketmine\event\player\PlayerMoveEvent;
-use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\player\PlayerRespawnEvent;
-use pocketmine\event\player\PlayerToggleSneakEvent;
+use pocketmine\event\entity\EntityEvent;
+use pocketmine\event\Event;
+use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerEvent;
 use pocketmine\level\Level;
 use pocketmine\scheduler\TaskHandler;
 use pocketmine\tile\Sign;
 use pocketmine\utils\TextFormat;
 
-abstract class BaseMiniGame{
+abstract class BaseMiniGame implements Listener{
     /** @var Loader */
     private $core;
     /** @var MiniGameProject */
@@ -427,47 +422,18 @@ abstract class BaseMiniGame{
      */
 
     /**
-     * @param PlayerInteractEvent $event
+     * Function to determinate if any 'Player-related' event corresponds to self game
+     *
+     * @param Event $event
+     * @return bool
      */
-    public function  onPlayerInteract(PlayerInteractEvent $event){}
-
-    /**
-     * @param PlayerMoveEvent $event
-     */
-    public function onPlayerMove(PlayerMoveEvent $event){}
-
-    /**
-     * @param EntityMotionEvent $event
-     */
-    public function onPlayerMotionChange(EntityMotionEvent $event){}
-
-    /**
-     * @param EntityDamageEvent $event
-     */
-    public function onEntityDamage(EntityDamageEvent $event){}
-
-    /**
-     * @param PlayerItemConsumeEvent $event
-     */
-    public function onItemConsume(PlayerItemConsumeEvent $event){}
-
-    /**
-     * @param PlayerDeathEvent $event
-     */
-    public function onPlayerDeath(PlayerDeathEvent $event){}
-
-    /**
-     * @param PlayerRespawnEvent $event
-     */
-    public function onPlayerRespawn(PlayerRespawnEvent $event){}
-
-    /**
-     * @param PlayerQuitEvent $event
-     */
-    public function onPlayerQuit(PlayerQuitEvent $event){}
-
-    /**
-     * @param PlayerToggleSneakEvent $event
-     */
-    public function onPlayerSneak(PlayerToggleSneakEvent $event){}
+    public function validEvent(Event $event){
+        if($event instanceof PlayerEvent || $event instanceof EntityEvent){
+            $player = $event instanceof PlayerEvent ? $event->getPlayer() : $event->getEntity();
+            if($player instanceof GamesPlayer && $player->getSession()->getGame() === $this){
+                return true;
+            }
+        }
+        return false;
+    }
 }

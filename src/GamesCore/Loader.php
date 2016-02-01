@@ -138,6 +138,7 @@ class Loader extends CoreInstance{
      * @param BaseMiniGame $game
      */
     public function addNewGame(BaseMiniGame $game){
+        $this->getServer()->getPluginManager()->registerEvents($game, $this);
         $this->games[$game->getLevel()->getId()] = $game;
         $this->gamesBySign[$game->getSign()->getId()] =& $this->games[$game->getLevel()->getId()]; // Passed by reference :3
         $color = count($game->getAllPlayers()) >= $game->getMaxPlayers() ? TextFormat::GOLD . TextFormat::ITALIC : TextFormat::GREEN . TextFormat::BOLD;
