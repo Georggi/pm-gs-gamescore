@@ -70,7 +70,7 @@ class EventHandler implements Listener{
             if($tile instanceof Sign && (
                 strtolower($tile->getText()[0] === TextFormat::GOLD . TextFormat::ITALIC . "[Join]") ||
                 strtolower($tile->getText()[0] === TextFormat::GREEN . TextFormat::BOLD . "[Join]")) &&
-            $this->plugin->getServer) {
+                $this->plugin->getServer()) {
 
             }
         }
