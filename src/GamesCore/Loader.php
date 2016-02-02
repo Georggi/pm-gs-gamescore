@@ -175,12 +175,14 @@ class Loader extends CoreInstance{
      * @param bool $shutdown
      */
     private function forceGamesClose($shutdown = false){
-        foreach($this->games as $id => $game){
-            /** @var BaseMiniGame $game */
-            $game->endGame(true, $shutdown);
-            $game->getSign()->setText("[match]", "", "", "");
+        if($this->getMiniGame() !== null){
+            $this->getMiniGame()->setEnabled(false);
+            foreach($this->games as $id => $game){
+                /** @var BaseMiniGame $game */
+                $game->endGame(true, $shutdown);
+                $game->getSign()->setText("[match]", "", "", "");
+            }
         }
-        $this->getMiniGame()->setEnabled(false);
     }
 
     /**
