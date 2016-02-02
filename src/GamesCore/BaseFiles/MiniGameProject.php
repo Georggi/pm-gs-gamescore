@@ -15,6 +15,7 @@ abstract class MiniGameProject extends CoreInstance{
 
     public function onLoad(){
         $this->getCore()->registerMiniGame($this);
+        $this->getCore()->getCore()->getLanguagesAPI()->addTranslations($this->getTranslations());
 
         if(is_dir($dir = $this->getDataFolder() . "worlds" . DIRECTORY_SEPARATOR)){
             $this->getCore()->getCore()->recursiveDirectoryCleaner($dir);
@@ -42,6 +43,11 @@ abstract class MiniGameProject extends CoreInstance{
         }
         return $this->core;
     }
+
+    /**
+     * @return array
+     */
+    public abstract function getTranslations();
 
     /**
      * @param Loader $gamesCore
