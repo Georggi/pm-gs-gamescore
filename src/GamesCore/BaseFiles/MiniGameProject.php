@@ -17,7 +17,7 @@ abstract class MiniGameProject extends CoreInstance{
         $this->getCore()->registerMiniGame($this);
 
         if(is_dir($dir = $this->getDataFolder() . "worlds" . DIRECTORY_SEPARATOR)){
-            $this->getCore()->getCore()->recursiveDirectoryCleaner($dir, true);
+            $this->getCore()->getCore()->recursiveDirectoryCleaner($dir);
         }
         $this->saveResource("worlds.zip", true);
         if(file_exists($zip = $this->getDataFolder() . "worlds.zip")){
@@ -28,7 +28,7 @@ abstract class MiniGameProject extends CoreInstance{
 
     public function onDisable(){
         if(is_dir($dir = $this->getDataFolder() . "worlds" . DIRECTORY_SEPARATOR)){
-            $this->getCore()->getCore()->recursiveDirectoryCleaner($dir, true);
+            $this->getCore()->getCore()->recursiveDirectoryCleaner($dir);
         }
         parent::onDisable();
     }

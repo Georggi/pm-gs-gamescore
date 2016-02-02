@@ -167,7 +167,7 @@ class Loader extends CoreInstance{
             unset($this->gamesBySign[$game->getSign()->getId()]);
             $dir = $this->getServer()->getDataPath() . "worlds" . DIRECTORY_SEPARATOR . $game->getLevel()->getFolderName() . DIRECTORY_SEPARATOR;
             $this->getServer()->unloadLevel($game->getLevel(), false);
-            $this->getCore()->recursiveDirectoryCleaner($dir, true);
+            $this->getCore()->recursiveDirectoryCleaner($dir);
         }
     }
 

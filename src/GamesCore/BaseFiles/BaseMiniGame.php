@@ -177,7 +177,9 @@ abstract class BaseMiniGame implements Listener{
                 $p->onGameEnd();
             }
         }
+        var_dump($this->getLevel());
         $this->getCore()->removeGame($this);
+        var_dump($this->getLevel());
         if(!$shutDown){
             $this->getCore()->addNewGame($this->getCore()->generateBasedGame($this));
         }
